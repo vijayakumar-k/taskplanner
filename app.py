@@ -14,6 +14,7 @@ app = Flask(__name__)
 
 #pymongo connection
 client = MongoClient("mongodb://taskplanner-server:PKtgp7V16ytOOGyVim8nEkUyyBLE7P63HCJMOCKlyPIGQhYekYIklFpxzoYT07sbopWq9gX5Y45vACDbCcZesg==@taskplanner-server.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@taskplanner-server@")
+# client = MongoClient("mongodb://localhost:27017/taskplannerdb")
 db = client["taskplanner-database"]
 if db is None:
     print("Connect to db failed")
@@ -35,7 +36,7 @@ def users():
 def add_task(task_name):
     mydict["name"]= task_name
     x = tasks.insert_one(mydict)
-    return x.inserted_id
+    return f"Inserted task: {x.inserted_id}!"
 
 
 @app.route("/tasks")
