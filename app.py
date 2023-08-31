@@ -1,20 +1,14 @@
 from flask import Flask
 from bson import json_util
-# from flask_pymongo import PyMongo
 from pymongo import MongoClient
+import os
 
 app = Flask(__name__)
 
-#mongo db connection
-# app.config["MONGO_URI"] = "mongodb://taskplanner-server:PKtgp7V16ytOOGyVim8nEkUyyBLE7P63HCJMOCKlyPIGQhYekYIklFpxzoYT07sbopWq9gX5Y45vACDbCcZesg==@taskplanner-server.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@taskplanner-server@/taskplanner-database"
-# app.config["MONGO_URI"] = "mongodb://localhost:27017/taskplannerdb"
-# mongo = PyMongo(app)
-# if mongo.db is None:
-    # print("Connection failed")
+db_connection_string = os.environ.get('AZURE_COSMOS_CONNECTIONSTRING', 'mongodb://localhost:27017/taskplannerdb')
+client = MongoClient(db_connection_string)
 
-#pymongo connection
-client = MongoClient("mongodb://taskplanner-server:PKtgp7V16ytOOGyVim8nEkUyyBLE7P63HCJMOCKlyPIGQhYekYIklFpxzoYT07sbopWq9gX5Y45vACDbCcZesg==@taskplanner-server.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@taskplanner-server@")
-# client = MongoClient("mongodb://localhost:27017/taskplannerdb")
+
 db = client["taskplanner-database"]
 if db is None:
     print("Connect to db failed")
